@@ -8,8 +8,8 @@ import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import xelenium.Page;
-import xelenium.XeleniumException;
+import jbehavepoc.Page;
+import jbehavepoc.XeleniumException;
 import examplesite.core.EsFace;
 import ch.lambdaj.collection.LambdaCollections;
 import ch.lambdaj.Lambda;

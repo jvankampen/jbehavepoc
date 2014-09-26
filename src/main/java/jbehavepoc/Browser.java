@@ -1,4 +1,4 @@
-package xelenium;
+package jbehavepoc;
 
 import java.util.ArrayList;
 import java.util.HashMap;

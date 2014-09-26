@@ -12,7 +12,11 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+        <jbehave.core.version>3.8-SWA</jbehave.core.version>
+        <jbehave.web.version>3.5.2</jbehave.web.version>
+        <jbehave.web.queue.version>3.4.3</jbehave.web.queue.version>
+        <jbehave.site.version>3.1.1</jbehave.site.version>
+    </properties>
 
   <build>
     <pluginManagement>
@@ -171,6 +175,30 @@
     	<artifactId>selenium-java</artifactId>
     	<version>2.42.2</version>
     </dependency>
+       <dependency>
+            <groupId>org.jbehave</groupId>
+            <artifactId>jbehave-core</artifactId>
+            <version>${jbehave.core.version}</version>
+        </dependency>
+    <dependency>
+            <groupId>org.jbehave.web</groupId>
+            <artifactId>jbehave-web-selenium</artifactId>
+            <version>${jbehave.web.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-control</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jbehave</groupId>
+                    <artifactId>jbehave-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>

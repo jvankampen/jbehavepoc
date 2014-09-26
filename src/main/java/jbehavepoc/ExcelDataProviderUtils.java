@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package xelenium;
+package jbehavepoc;
 
 import java.lang.reflect.Method;
 
