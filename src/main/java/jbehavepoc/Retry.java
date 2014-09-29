@@ -1,4 +1,4 @@
-package xelenium;
+package jbehavepoc;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

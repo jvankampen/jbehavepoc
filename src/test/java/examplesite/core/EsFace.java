@@ -8,11 +8,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
-import xelenium.BaseTestFace;
-import xelenium.Browser;
-import xelenium.Prefs;
-import xelenium.Res;
-import xelenium.XeleniumDriver;
+import jbehavepoc.BaseTestFace;
+import jbehavepoc.Browser;
+import jbehavepoc.Prefs;
+import jbehavepoc.Res;
+import jbehavepoc.XeleniumDriver;
 
 /**
  * Class which gives tests access to Selenium 2 WebDriver.

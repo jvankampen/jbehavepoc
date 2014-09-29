@@ -2,7 +2,7 @@ package examplesite.tests;
 
 import org.testng.annotations.Test;
 
-import xelenium.Retry;
+import jbehavepoc.Retry;
 import examplesite.core.EsFace;
 import examplesite.core.ExampleSiteBaseTest;
 import examplesite.pages.CompanyAboutPage;

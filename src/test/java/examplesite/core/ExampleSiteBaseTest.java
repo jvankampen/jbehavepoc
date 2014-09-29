@@ -1,8 +1,8 @@
 package examplesite.core;
 
-import xelenium.BaseTest;
-import xelenium.Browser;
-import xelenium.Prefs;
+import jbehavepoc.BaseTest;
+import jbehavepoc.Browser;
+import jbehavepoc.Prefs;
 
 /**
  * The base test structure for all tests for this site.

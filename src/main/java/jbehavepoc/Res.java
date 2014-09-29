@@ -1,4 +1,4 @@
-package xelenium;
+package jbehavepoc;
 
 import org.apache.commons.io.FileUtils;
 

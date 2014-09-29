@@ -7,9 +7,9 @@ import java.util.Hashtable;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import xelenium.ExcelDataProviderArgs;
-import xelenium.Retry;
-import xelenium.XcelReader;
+import jbehavepoc.ExcelDataProviderArgs;
+import jbehavepoc.Retry;
+import jbehavepoc.XcelReader;
 
 public class ExcelDataTest extends ExampleSiteBaseTest{
 

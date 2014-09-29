@@ -1,4 +1,4 @@
-package xelenium;
+package jbehavepoc;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import org.testng.annotations.DataProvider;
  * web-testing environment. Tests should not inherit from this class directly,
  * unless those tests are willing to implement the abstract methods. Instead,
  * they should inherit from a concrete base class instead (example:
- * {@link xelenium.webdriver.WdTest})
+ * {@link jbehavepoc.webdriver.WdTest})
  */
 public abstract class BaseTest<T extends TestFace<?, ?>> extends Assert
 implements IHookable {

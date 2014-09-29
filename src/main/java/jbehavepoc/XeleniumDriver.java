@@ -1,4 +1,4 @@
-package xelenium;
+package jbehavepoc;
 
 import java.util.List;
 import java.util.Set;
