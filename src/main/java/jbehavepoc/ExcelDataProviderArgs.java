@@ -10,7 +10,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Custom annotation for Dealing with the EXCEL dataProvider within Xelenium.
+ * Custom annotation for Dealing with the EXCEL dataProvider within jbehavepoc.
  * @author Alan Holt
  */
 @Retention(RetentionPolicy.RUNTIME)
