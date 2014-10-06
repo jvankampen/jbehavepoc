@@ -25,6 +25,7 @@ import org.jbehave.web.selenium.SeleniumConfiguration;
 import org.jbehave.web.selenium.SeleniumContext;
 import org.jbehave.web.selenium.SeleniumContextOutput;
 import org.jbehave.web.selenium.WebDriverProvider;
+import org.testng.annotations.Test;
 
 public class XpanxionJbehaveStories extends JUnitStories {
     private WebDriverProvider driverProvider;
@@ -47,7 +48,7 @@ public class XpanxionJbehaveStories extends JUnitStories {
      
         }
 	};
-	
+
 	public XpanxionJbehaveStories() {
         Class<?> embeddableClass = this.getClass();
         CrossReference crossReference = new CrossReference().withJsonOnly().withOutputAfterEachStory(true)
