@@ -37,6 +37,7 @@ implements IHookable {
      * </pre>
      */
     public static final String MULTIBROWSER = "multibrowser";
+    public static final String IEBROWSER = "iebrowser";
     public static final String EXCEL = "excel";
 
     /**
@@ -120,6 +121,11 @@ implements IHookable {
     public Object[][] provideMultibrowser() {
         return injectMultibrowser(NO_PARAMS);
     }
+    
+    @DataProvider(name = IEBROWSER, parallel = true)
+    public Object[][] provideSinglebrowser() {
+        return injectBrowserSingle("IE", NO_PARAMS);
+    }
     /**
      * Tests that would like to run based off an excel sheet can use this as their data provider.
      * Use in tandem with the @ExcelDataProviderArgs annotation on test methods.
@@ -199,6 +205,58 @@ implements IHookable {
                 Object[] params = new Object[2];
                 params[0] = browser;
                 params[1] = sourceParams;
+
+                paramsArray[currTest] = params;
+                ++currTest;
+            }
+        }
+
+        return paramsArray;
+    }
+    
+    /**
+     * When a data provider has provided all of the data for testing, and needs
+     * to run all of that data once per browser, then this method may be called
+     * by that provider.
+     * <p/>
+     * Example: a provider wants to provide two Strings to all the browsers
+     * under test.<br/>
+     * // * Contents of the provider's Object[][] before calling
+     * injectMultibrowser:<br/>
+     * {@code String[][] "Alice"}, {"Bob}} }<br/>
+     * Browsers under test:
+     * <ol>
+     * <li>Firefox</li>
+     * <li>Google Chrome</li>
+     * </ol>
+     * <br/>
+     * injectMultibrowser will return the following:<br/>
+     * {@code String[][] Browser.FIREFOX, "Alice"}, {Browser.FIREFOX,
+     * "Bob}, {Browser.CHROME, "Alice"}, {Browser.CHROME, "Bob}} }<br/>
+     * <p/>
+     * In other words, the number of tests will be multiplied by the number of
+     * browsers.
+     * 
+     * @param sourceParamsArray
+     *            The parameters to be contained in the new array.
+     * @return A new array that contains information for the testing browser.
+     */
+    public Object[][] injectBrowserSingle(String requestedBrowser, Object[][] sourceParamsArray) {
+        List<Browser> browsers = prefs().browsers(requestedBrowser);
+        int numOriginalParams = sourceParamsArray.length;
+        int numBrowsers = browsers.size();
+        Object[][] paramsArray = new Object[numOriginalParams * numBrowsers][];
+        int currTest = 0;
+        for (int spaIndex = 0; spaIndex < numOriginalParams; ++spaIndex) {
+            Object[] sourceParams = sourceParamsArray[spaIndex];
+            for (int bIndex = 0; bIndex < numBrowsers; ++bIndex) {
+                Browser browser = browsers.get(bIndex);
+
+                Object[] params = new Object[sourceParams.length + 1];
+                params[0] = browser;
+                for (int spIndex = 0; spIndex < sourceParams.length; ++spIndex) {
+                    params[spIndex + 1] = sourceParams[spIndex];
+                }
 
                 paramsArray[currTest] = params;
                 ++currTest;

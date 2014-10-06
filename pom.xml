@@ -12,8 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jbehave.core.version>3.8-SWA</jbehave.core.version>
-        <jbehave.web.version>3.5.2</jbehave.web.version>
+         <jbehave.core.version>3.10-SNAPSHOT</jbehave.core.version>
+    <jbehave.web.version>3.6-SNAPSHOT</jbehave.web.version>
         <jbehave.web.queue.version>3.4.3</jbehave.web.queue.version>
         <jbehave.site.version>3.1.1</jbehave.site.version>
     </properties>
@@ -174,7 +174,7 @@
     	<groupId>org.seleniumhq.selenium</groupId>
     	<artifactId>selenium-java</artifactId>
     	<version>2.42.2</version>
-    </dependency>
+    </dependency> 
        <dependency>
             <groupId>org.jbehave</groupId>
             <artifactId>jbehave-core</artifactId>

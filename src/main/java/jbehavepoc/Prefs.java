@@ -5,6 +5,7 @@ import org.testng.xml.XmlTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -220,6 +221,17 @@ public class Prefs {
      */
     public List<Browser> browsers() {
         return Browser.browsersFromList(getProperty("browsers"));
+    }
+    
+    public List<Browser> browsers(String choosen) {
+    	List<Browser> rtnBrowser = new ArrayList<Browser>();
+    	List<Browser> browsers = Browser.browsersFromList(getProperty("browsers"));
+    	for(Browser browser : browsers) {
+    		if(browser.toString().equals(choosen)) {
+    			rtnBrowser.add(browser);
+    		}
+    	}
+        return rtnBrowser;
     }
 
     /**
