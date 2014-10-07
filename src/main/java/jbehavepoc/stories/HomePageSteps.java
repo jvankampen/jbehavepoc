@@ -12,8 +12,7 @@ import examplesite.pages.HomePage;
 public class HomePageSteps {
 	
 	EsFace ef;
-	HomePage home;
-	Logger logger;
+	
 	
 	@Given("Xpanxion Home")
 	public void xpanxionHome() {
@@ -22,21 +21,22 @@ public class HomePageSteps {
 	
 	@When("I launch www.xpanxion.com")
 	public void homepageLaunch() {
-		 home = HomePage.open(ef);
-			
+		HomePage home = HomePage.open(ef);
+		home.VerifyPage();
 	}
 	  
-	@When("I search for $searchTerm")
+	/*@When("I search for $searchTerm")
 	public void performSearch(String searchTerm) {
 		logger.info("Searching for " + searchTerm);
 		home.search(searchTerm);
-	}		
+	}	*/	
 		  
 	
 	  @Then("xpanxion home page should be displayed")
 	  public void homepageVerify()
 	  {
-	  home.VerifyPage();
+		  HomePage home = HomePage.open(ef);
+	home.VerifyPage();
 	  }
 	  
 	  @Then("I should get a search result of Xpanxion: Software Consulting Services") 

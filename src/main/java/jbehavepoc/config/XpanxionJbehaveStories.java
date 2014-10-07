@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import jbehavepoc.stories.HomePageSteps;
+
 import org.jbehave.core.embedder.MetaFilter;
 
 
@@ -29,99 +31,82 @@ import org.jbehave.core.model.Meta;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
+import org.jbehave.core.steps.InjectableStepsFactory;
+import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.ParameterConverters;
+import org.jbehave.core.steps.SilentStepMonitor;
 import org.jbehave.core.steps.StepMonitor;
+import org.jbehave.core.Embeddable;
 import org.jbehave.core.InjectableEmbedder;
 import org.jbehave.web.selenium.ContextView;
 import org.jbehave.web.selenium.LocalFrameContextView;
+import org.jbehave.web.selenium.PerStoriesWebDriverSteps;
+import org.jbehave.web.selenium.PropertyWebDriverProvider;
 import org.jbehave.web.selenium.SeleniumConfiguration;
 import org.jbehave.web.selenium.SeleniumContext;
 import org.jbehave.web.selenium.SeleniumContextOutput;
 import org.jbehave.web.selenium.SeleniumStepMonitor;
 import org.jbehave.web.selenium.WebDriverProvider;
+import org.jbehave.web.selenium.WebDriverScreenshotOnFailure;
+import org.jbehave.web.selenium.WebDriverSteps;
 //import org.testng.annotations.Test;
 import org.junit.Test;
 
+import com.google.common.util.concurrent.MoreExecutors;
+
 
 public class XpanxionJbehaveStories extends JUnitStories {
-    private WebDriverProvider driverProvider;
-    private boolean shouldDoDryRun = false;
-    private ContextView contextView;
-    private StepMonitor stepMonitor;
-    private String metaFilter;
-	private SeleniumContext seleniumContext = new SeleniumContext() {
 
-        ThreadLocal<String> currentScenario = new ThreadLocal<String>();
-
-        @Override
-        public String getCurrentScenario() {
-            return currentScenario.get();
-        }
-
-        @Override
-        public void setCurrentScenario(String currentScenario) {
-            this.currentScenario.set(currentScenario);
+	private WebDriverProvider driverProvider = new PropertyWebDriverProvider();
+    private WebDriverSteps lifecycleSteps = new PerStoriesWebDriverSteps(driverProvider); 
+    private SeleniumContext context = new SeleniumContext();
+    private ContextView contextView = new LocalFrameContextView().sized(500, 100);
      
+    public XpanxionJbehaveStories() {
+        if ( lifecycleSteps instanceof PerStoriesWebDriverSteps ){
+            configuredEmbedder().useExecutorService(MoreExecutors.sameThreadExecutor());
         }
-	};
-
-	public XpanxionJbehaveStories() {
-        Class<?> embeddableClass = this.getClass();
-        CrossReference crossReference = new CrossReference().withJsonOnly().withOutputAfterEachStory(true)
-                .excludingStoriesWithNoExecutedScenarios(true);
-        Format[] formats = new Format[] { new SeleniumContextOutput(seleniumContext), CONSOLE, WEB_DRIVER_HTML };
-
-
-        Configuration configuration = new SeleniumConfiguration()
+    }
+ 
+    @Override
+    public Configuration configuration() {
+        Class<? extends Embeddable> embeddableClass = this.getClass();
+        return new SeleniumConfiguration()
+                .useSeleniumContext(context)
                 .useWebDriverProvider(driverProvider)
-                .useSeleniumContext(seleniumContext)
-                .usePendingStepStrategy(shouldDoDryRun ? new PassingUponPendingStep() : new FailingUponPendingStep())
-                .useParameterConverters(new ParameterConverters(true))
-                .useFailureStrategy(new RethrowingFailure())
-                .doDryRun(shouldDoDryRun)
-                .useStepMonitor(stepMonitor)
-                .useStoryLoader(new LoadFromClasspath(embeddableClass.getClassLoader()))
-                .useStoryReporterBuilder(
-                        new StoryReporterBuilder()
-                        .withCodeLocation(CodeLocations.codeLocationFromClass(embeddableClass))
-                        .withFailureTraceCompression(true).withDefaultFormats().withFormats(formats)
-                        .withCrossReference(crossReference));
-
-        useConfiguration(configuration);
-		
-	}
-
-	 //@Test
-	    public void run() throws Throwable {
-		 Embedder embedder = configuredEmbedder();
-	            embedder.useMetaFilters(Arrays.asList(System.getProperty("meta.filter")));
-	            embedder.embedderControls().doIgnoreFailureInView(true);
-	            embedder.useEmbedderMonitor(new PrintStreamEmbedderMonitor() {
-	                @Override
-	                public void metaNotAllowed(Meta meta, MetaFilter filter){
-	                	System.out.println("Not allowed metta: " + meta + " Filter:  " + filter);
-	                    // suppressing excluded story messages
-	                }
-	            });
-	        
-	        metaFilter = super.configuredEmbedder().metaFilters().toString();
-	        System.out.println("****** Meta Filter: " + metaFilter);
-	       
-	            
-	                embedder.runStoriesAsPaths(storyPaths());
-	       
-	    }
+                .useStepMonitor(new SeleniumStepMonitor(contextView, context, new SilentStepMonitor()))
+                .useStoryLoader(new LoadFromClasspath(embeddableClass))
+                .useStoryReporterBuilder(new StoryReporterBuilder()
+                    .withCodeLocation(codeLocationFromClass(embeddableClass))
+                    .withDefaultFormats()
+                    .withFormats(CONSOLE));
+    }
+ 
+    @Override
+    public InjectableStepsFactory stepsFactory() {
+        Configuration configuration = configuration();
+        return new InstanceStepsFactory(configuration, 
+                new HomePageSteps(),
+                lifecycleSteps,
+                new WebDriverScreenshotOnFailure(driverProvider, configuration.storyReporterBuilder()));
+    }
+ 
 	@Override
 	protected List<String> storyPaths() {
-		File storyFile = new File("c:/repos/jbehavepoc/src/main/java/jbehavepoc/stories/search.story");
-		List<String> excluded = new ArrayList<String>();
-		excluded.add("");
-		System.out.println("Does the story exist? " + storyFile.exists());
-		return new StoryFinder().findPaths(codeLocationFromClass(this.getClass()).getFile(),
-                asList("c:/repos/jbehavepoc/src/main/java/jbehavepoc/stories/search.story"), excluded);
-				//asList("**/" + System.getProperty("storyFilter", "*") + ".story"), null);
+		
+		//return new StoryFinder().findPaths(codeLocationFromClass(this.getClass()).getFile(),
+			//	asList("**/" + System.getProperty("storyFilter", "*") + ".story"), null);
+		
+		return new StoryFinder()
+        .findPaths(codeLocationFromClass(this.getClass()).getFile(), asList("**/home.story"), null);
 	}
 	
 
-
+	  public static class SameThreadEmbedder extends Embedder {
+	         
+	        public SameThreadEmbedder() {
+	            useExecutorService(MoreExecutors.sameThreadExecutor());
+	        }
+	
+}
 }
