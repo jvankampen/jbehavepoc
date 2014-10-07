@@ -119,6 +119,33 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-maven-plugin</artifactId>
+			<version>3.9.4</version>
+			<executions>
+			<execution>
+				<configuration>
+					<includes>
+					<include>**/stories/*.java</include>
+					</includes>
+				<metaFilters>
+					<metaFilter>"groovy: lang != 'java'"</metaFilter>
+				</metaFilters>
+				<generateViewAfterStories>true</generateViewAfterStories>
+				<ignoreFailureInStories>true</ignoreFailureInStories>
+				<ignoreFailureInView>true</ignoreFailureInView>
+				</configuration>
+				</execution>
+			</executions>
+		 	<dependencies>
+			<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+		</dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
     <resources>
@@ -225,10 +252,20 @@
 	<artifactId>phantomjsdriver</artifactId>
 	<version>1.1.0</version>
     </dependency>
-	<dependency>
+<!-- 	<dependency>
 	<groupId>org.jbehave</groupId>
 	<artifactId>jbehave-maven-plugin</artifactId>
 	<version>3.9.4</version>
+		<executions>
+		<metaFilters>
+			<metaFilter>"groovy: lang != 'java'"</metaFilter>
+		</metaFilters>
+		</executions>
 	</dependency>
+	<dependency>
+		<groupId>org.codehaus.groovy</groupId>
+		<artifactId>groovy-all</artifactId>
+		<version>1.8.4</version>
+	</dependency> -->
   </dependencies>
 </project>
