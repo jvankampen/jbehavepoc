@@ -1,13 +1,23 @@
-package jbejavepoc.config;
+
+package jbehavepoc.config;
 
 import static java.util.Arrays.asList;
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 import static org.jbehave.core.reporters.Format.CONSOLE;
 import static org.jbehave.web.selenium.WebDriverHtmlOutput.WEB_DRIVER_HTML;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.jbehave.core.embedder.MetaFilter;
+
+
 import org.jbehave.core.configuration.Configuration;
+import org.jbehave.core.embedder.Embedder;
+import org.jbehave.core.embedder.PrintStreamEmbedderMonitor;
+import org.jbehave.core.embedder.StoryControls;
 import org.jbehave.core.failures.FailingUponPendingStep;
 import org.jbehave.core.failures.PassingUponPendingStep;
 import org.jbehave.core.failures.RethrowingFailure;
@@ -15,24 +25,30 @@ import org.jbehave.core.io.CodeLocations;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.JUnitStories;
+import org.jbehave.core.model.Meta;
 import org.jbehave.core.reporters.CrossReference;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.ParameterConverters;
 import org.jbehave.core.steps.StepMonitor;
+import org.jbehave.core.InjectableEmbedder;
 import org.jbehave.web.selenium.ContextView;
+import org.jbehave.web.selenium.LocalFrameContextView;
 import org.jbehave.web.selenium.SeleniumConfiguration;
 import org.jbehave.web.selenium.SeleniumContext;
 import org.jbehave.web.selenium.SeleniumContextOutput;
+import org.jbehave.web.selenium.SeleniumStepMonitor;
 import org.jbehave.web.selenium.WebDriverProvider;
-import org.testng.annotations.Test;
+//import org.testng.annotations.Test;
+import org.junit.Test;
+
 
 public class XpanxionJbehaveStories extends JUnitStories {
     private WebDriverProvider driverProvider;
     private boolean shouldDoDryRun = false;
     private ContextView contextView;
     private StepMonitor stepMonitor;
-
+    private String metaFilter;
 	private SeleniumContext seleniumContext = new SeleniumContext() {
 
         ThreadLocal<String> currentScenario = new ThreadLocal<String>();
@@ -75,10 +91,35 @@ public class XpanxionJbehaveStories extends JUnitStories {
 		
 	}
 
-
+	 //@Test
+	    public void run() throws Throwable {
+		 Embedder embedder = configuredEmbedder();
+	            embedder.useMetaFilters(Arrays.asList(System.getProperty("meta.filter")));
+	            embedder.embedderControls().doIgnoreFailureInView(true);
+	            embedder.useEmbedderMonitor(new PrintStreamEmbedderMonitor() {
+	                @Override
+	                public void metaNotAllowed(Meta meta, MetaFilter filter){
+	                	System.out.println("Not allowed metta: " + meta + " Filter:  " + filter);
+	                    // suppressing excluded story messages
+	                }
+	            });
+	        
+	        metaFilter = super.configuredEmbedder().metaFilters().toString();
+	        System.out.println("****** Meta Filter: " + metaFilter);
+	       
+	            
+	                embedder.runStoriesAsPaths(storyPaths());
+	       
+	    }
+	@Override
 	protected List<String> storyPaths() {
+		File storyFile = new File("c:/repos/jbehavepoc/src/main/java/jbehavepoc/stories/search.story");
+		List<String> excluded = new ArrayList<String>();
+		excluded.add("");
+		System.out.println("Does the story exist? " + storyFile.exists());
 		return new StoryFinder().findPaths(codeLocationFromClass(this.getClass()).getFile(),
-                asList("**/" + System.getProperty("storyFilter", "*") + ".story"), null);
+                asList("c:/repos/jbehavepoc/src/main/java/jbehavepoc/stories/search.story"), excluded);
+				//asList("**/" + System.getProperty("storyFilter", "*") + ".story"), null);
 	}
 	
 

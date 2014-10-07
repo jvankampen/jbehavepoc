@@ -12,8 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-         <jbehave.core.version>3.10-SNAPSHOT</jbehave.core.version>
-    <jbehave.web.version>3.6-SNAPSHOT</jbehave.web.version>
+         <jbehave.core.version>3.9.4</jbehave.core.version>
+    <jbehave.web.version>3.5.5</jbehave.web.version>
         <jbehave.web.queue.version>3.4.3</jbehave.web.queue.version>
         <jbehave.site.version>3.1.1</jbehave.site.version>
     </properties>
@@ -139,6 +139,12 @@
   </repositories>
 
   <dependencies>
+  <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.11</version>
+</dependency>
+  
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>

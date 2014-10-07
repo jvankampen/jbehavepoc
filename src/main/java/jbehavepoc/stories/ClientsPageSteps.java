@@ -1,4 +1,4 @@
-package jbehavepoc.steps;
+package jbehavepoc.stories;
 
 public class ClientsPageSteps {
 

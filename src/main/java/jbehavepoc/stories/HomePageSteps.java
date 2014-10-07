@@ -1,4 +1,4 @@
-package jbehavepoc.steps;
+package jbehavepoc.stories;
 
 import mx4j.log.Logger;
 
@@ -37,5 +37,9 @@ public class HomePageSteps {
 	  public void homepageVerify()
 	  {
 	  home.VerifyPage();
+	  }
+	  
+	  @Then("I should get a search result of Xpanxion: Software Consulting Services") 
+	  public void searchVerify() {
 	  }
 }
