@@ -8,10 +8,15 @@ import org.jbehave.core.annotations.When;
 
 import examplesite.core.EsFace;
 import examplesite.pages.HomePage;
+import examplesite.pages.Pages;
 
 public class HomePageSteps {
 	
-	EsFace ef;
+	 private final Pages pages;
+	 
+	    public HomePageSteps(Pages pages) {
+	        this.pages = pages;
+	    }
 	
 	
 	@Given("Xpanxion Home")
@@ -21,8 +26,7 @@ public class HomePageSteps {
 	
 	@When("I launch www.xpanxion.com")
 	public void homepageLaunch() {
-		HomePage home = HomePage.open(ef);
-		home.VerifyPage();
+		pages.home().open();
 	}
 	  
 	/*@When("I search for $searchTerm")
