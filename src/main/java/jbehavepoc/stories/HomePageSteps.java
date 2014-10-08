@@ -17,9 +17,11 @@ public class HomePageSteps {
 	    public HomePageSteps(Pages pages) {
 	        this.pages = pages;
 	    }
-	
-	
-	@Given("Xpanxion Home")
+
+
+
+
+    @Given("Xpanxion Home")
 	public void xpanxionHome() {
 		homepageLaunch();
 	}
@@ -37,7 +39,7 @@ public class HomePageSteps {
 		  
 	
 	  @Then("xpanxion home page should be displayed")
-	  public void homepageVerify()
+	  public void homepageVerify(EsFace ef)
 	  {
 		  HomePage home = HomePage.open(ef);
 	home.VerifyPage();

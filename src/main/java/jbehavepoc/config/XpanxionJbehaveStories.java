@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import examplesite.pages.Pages;
 import jbehavepoc.stories.HomePageSteps;
 
 import org.jbehave.core.embedder.MetaFilter;
@@ -49,6 +50,8 @@ import org.jbehave.web.selenium.SeleniumStepMonitor;
 import org.jbehave.web.selenium.WebDriverProvider;
 import org.jbehave.web.selenium.WebDriverScreenshotOnFailure;
 import org.jbehave.web.selenium.WebDriverSteps;
+import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.condition.ConditionRunner;
 //import org.testng.annotations.Test;
 import org.junit.Test;
 
@@ -58,9 +61,13 @@ import com.google.common.util.concurrent.MoreExecutors;
 public class XpanxionJbehaveStories extends JUnitStories {
 
 	private WebDriverProvider driverProvider = new PropertyWebDriverProvider();
+    private Selenium selenium = SeleniumConfiguration.defaultSelenium();
+    private ConditionRunner conditionRunner = SeleniumConfiguration.defaultConditionRunner(selenium);
     private WebDriverSteps lifecycleSteps = new PerStoriesWebDriverSteps(driverProvider); 
     private SeleniumContext context = new SeleniumContext();
     private ContextView contextView = new LocalFrameContextView().sized(500, 100);
+    //private Pages pages = new Pages(driverProvider);
+    private Pages pages = new Pages(selenium, conditionRunner);
      
     public XpanxionJbehaveStories() {
         if ( lifecycleSteps instanceof PerStoriesWebDriverSteps ){
@@ -86,7 +93,7 @@ public class XpanxionJbehaveStories extends JUnitStories {
     public InjectableStepsFactory stepsFactory() {
         Configuration configuration = configuration();
         return new InstanceStepsFactory(configuration, 
-                new HomePageSteps(),
+                new HomePageSteps(pages),
                 lifecycleSteps,
                 new WebDriverScreenshotOnFailure(driverProvider, configuration.storyReporterBuilder()));
     }
